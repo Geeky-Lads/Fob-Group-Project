@@ -1,4 +1,5 @@
-// The encryption program in C++ and ASM with a very simple encryption method - it simply adds 1 to the 
+// The encryption program in C++ and ASM with a very simple encryption method - it simply adds 1 to the 
+
 character.
 // The encryption method is written in ASM. You will replace this with your allocated version for the assignment.
 // In this version parameters are passed via registers (see 'encrypt' for details).
@@ -50,48 +51,60 @@ void get_original_chars(int& length)
 
 void encrypt_chars(int length, char EKey)
 {
-	char temp_char;						// declaring the temp_char as 
+	char temp_char;						// declaring the temp_char as 
+
 	a character variable
 
-	for (int i = 0; i < length; i++)	// encrypt characters one at a time by working out the length of the 
+	for (int i = 0; i < length; i++)	// encrypt characters one at a time by working out the length of the 
+
 		string entered
 	{
-		temp_char = OChars[i];			//Setting the temp_char variable to one 
+		temp_char = OChars[i];			//Setting the temp_char variable to one 
+
 		character at a time from the string entered until it's completed the length
 			__asm {
-			push   eax					// Save register values on 
+			push   eax					// Save register values on 
+
 				stack to be safe
-				push   ecx				// Pushing the temp_char 
+				push   ecx				// Pushing the temp_char 
+
 				onto the stack
-				movzx ecx, temp_char		// loading "a" in ascii which is 
+				movzx ecx, temp_char		// loading "a" in ascii which is 
+
 				the EKey into the eax register moving register address of Ekey into eax
 				push   temp_char
 				lea    eax, EKey
 				push ecx
 				push eax
-				call   encrypt9				// calling the 
+				call   encrypt9				// calling the 
+
 				encrypt9 subroutine to encrypt the string entered
 				add	   esp, 8
 				mov    temp_char, al
 
 				pop    temp_char
 				pop    EKey
-				pop    ecx					// Restoring 
+				pop    ecx					// Restoring 
+				pop    exc					// Coming
+
 				original value of register ECX and removing from the stack
-				pop    eax					// Restoring 
+				pop    eax					// Restoring 
+
 				orginial value of register EAX and removing from the stack
 		}
-		EChars[i] = temp_char;			// Store the encrypted character in the 
+		EChars[i] = temp_char;			// Store the encrypted character in the 
+
 		encrypted chars array
 	}
 	return;
 
 
 	// Encrypt subroutine. You should paste in the encryption routine you've been allocated from Bb and
-	// overwrite this initial, simple, version. Ensure you change the ‘call’ above to use the
+	// overwrite this initial, simple, version. Ensure you change the â€˜callâ€™ above to use the
 	// correct 'encryptnn' label where nn is your encryption routine number.
 	// Inputs: register EAX = 32-bit address of Ekey,
-	//					ECX = the character to be encrypted (in the low 8
+	//					ECX = the character to be encrypted (in the low 8
+
 	-bit field, CL).
 		// Output: register EAX = the encrypted value of the source character (in the low 8-bit field, AL).
 		__asm {
@@ -100,19 +113,24 @@ void encrypt_chars(int length, char EKey)
 
 		push ebp
 			mov ebp, esp
-			mov ecx, [ebp + 12]			//Change the base pointer of the stack 
+			mov ecx, [ebp + 12]			//Change the base pointer of the stack 
+
 			to find the temp_char
-			mov eax, [ebp + 8]		//Change the base pointer of the stack to find the 
+			mov eax, [ebp + 8]		//Change the base pointer of the stack to find the 
+
 			Ekey
 
 			push ebx		//Pushing the Ekey onto the stack
-			push ecx		//Pushing the temp_char value onto the stack, first character 
+			push ecx		//Pushing the temp_char value onto the stack, first character 
+
 			of the string
 
 			mov ebx, [eax]	//Anding the Ekey with  
-			and ebx, 0x000000FF	//Anding the Ekey with 255 in decimal, it's padded 
+			and ebx, 0x000000FF	//Anding the Ekey with 255 in decimal, it's padded 
+
 			out with 0's because it's an 8 - bit reigster
-			mov edx, 05			//Moving the value of 5 into the EDX 
+			mov edx, 05			//Moving the value of 5 into the EDX 
+
 			register which is initalised as the loop counter
 		x9 : rol bl, 1		//loop excecuting 5 times
 			 dec edx		//decrement loop counter
